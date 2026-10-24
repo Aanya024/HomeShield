@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HomeShield AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--terra:#C86A3C;--earth:#8E6A4B;--linen:#C7AF98;--sage:#747760;
+--bg:color-mix(in srgb,var(--linen) 38%,#fff);--card:color-mix(in srgb,var(--linen) 22%,#fff);--ink:color-mix(in srgb,var(--earth) 25%,#000);--mut:color-mix(in srgb,var(--earth) 55%,#000);--ln:color-mix(in srgb,var(--earth) 35%,transparent);--chip:color-mix(in srgb,var(--linen) 45%,#fff);--sh:0 8px 24px color-mix(in srgb,var(--earth) 18%,transparent);--hd:var(--earth);--tt:color-mix(in srgb,var(--terra) 16%,transparent);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:color-mix(in srgb,var(--earth) 16%,#000);--card:color-mix(in srgb,var(--earth) 30%,#000);--ink:color-mix(in srgb,var(--linen) 70%,#fff);--mut:var(--linen);--ln:color-mix(in srgb,var(--earth) 60%,transparent);--chip:color-mix(in srgb,var(--earth) 45%,#000);--sh:0 8px 24px rgba(0,0,0,.4);--hd:var(--linen);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:color-mix(in srgb,var(--earth) 16%,#000);--card:color-mix(in srgb,var(--earth) 30%,#000);--ink:color-mix(in srgb,var(--linen) 70%,#fff);--mut:var(--linen);--ln:color-mix(in srgb,var(--earth) 60%,transparent);--chip:color-mix(in srgb,var(--earth) 45%,#000);--sh:0 8px 24px rgba(0,0,0,.4);--hd:var(--linen);color-scheme:dark}
+:root{--blue:#3E6FA8;--blue-l:#A9CBEA;--blue-m:#5B9BD5}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:16px/1.55 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;color:var(--hd);margin:0}
+h1{font-size:1.9rem}h2{font-size:1.5rem}h3{font-size:1.2rem;margin-bottom:.35rem}
+p{margin:.2rem 0}.mut{color:var(--mut);font-size:.92rem}
+button{font:inherit;cursor:pointer;color:inherit}
+.app{max-width:1120px;margin:0 auto;padding:22px 24px 120px;position:relative}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:46px;height:46px;border-radius:16px;background:var(--blue);display:grid;place-items:center}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{border:0;border-radius:999px;padding:10px 18px;font-weight:700;background:var(--terra);color:#241A13}
+.btn.o{background:transparent;border:1.5px solid var(--earth);color:var(--ink)}
+.btn.g{background:var(--blue);color:#fff}.btn.s{padding:7px 14px;font-size:.9rem}
+.btn:focus-visible,.tab:focus-visible,.sw:focus-visible,input:focus-visible{outline:3px solid var(--terra);outline-offset:2px}
+.nav{display:flex;gap:6px;margin:20px 0;padding:6px;background:var(--chip);border-radius:999px;overflow:auto}
+.tab{flex:1;border:0;background:transparent;border-radius:999px;padding:10px 14px;font-weight:700;display:flex;gap:8px;align-items:center;justify-content:center;white-space:nowrap}
+.tab[aria-selected=true]{background:var(--blue);color:#fff}
+.tab svg,.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.card{background:var(--card);border:1.5px solid var(--ln);border-radius:26px;padding:22px;box-shadow:var(--sh)}
+.card.al{border-color:var(--terra);background:linear-gradient(var(--tt),var(--tt)),var(--card)}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.intro{margin-bottom:18px}.intro .k{font-weight:700;color:var(--mut);font-size:.85rem;letter-spacing:.06em;text-transform:uppercase}
+.badge{background:var(--earth);color:#fff;border-radius:999px;padding:5px 14px;font-weight:700;font-size:.88rem}
+.chip{display:inline-flex;gap:8px;align-items:center;background:var(--chip);border:1px solid var(--ln);border-radius:999px;padding:5px 13px;font-size:.9rem;font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--sage);flex:none}.dot.t{background:var(--terra)}
+.bar{height:16px;border-radius:99px;background:var(--chip);overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--blue);border-radius:99px;transition:width .8s}.bar.t i{background:var(--terra)}
+.big{font:600 2.6rem/1 Fraunces,Georgia,serif;color:var(--hd)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px}
+.node{width:100%;max-width:560px;text-align:center;background:var(--card);border:1.5px solid var(--ln);border-radius:22px;padding:14px}
+.arr{color:var(--earth);display:grid;place-items:center}.arr svg{width:26px;height:26px;transform:rotate(90deg)}
+.stages{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:6px;width:100%}
+.stages .arr svg{transform:none}
+.stg{display:flex;flex-direction:column;align-items:flex-start;text-align:left;border:1.5px solid var(--ln);background:var(--card);border-radius:22px;padding:16px}
+.stg:hover{border-color:var(--earth)}.stg.al{border-color:var(--terra);background:linear-gradient(var(--tt),var(--tt)),var(--card)}
+.room{border:2px solid var(--earth);border-radius:22px;padding:14px;min-height:96px}
+.room.q{border:2px dashed var(--terra);background:var(--tt)}
+.plan{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}.plan .sm{grid-row:span 2}
+.rm{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mv{animation:pop .7s}@keyframes pop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--ln)}
+.li:first-of-type{border-top:0}
+.sw{width:50px;height:28px;border-radius:99px;border:0;background:var(--ln);position:relative;flex:none}
+.sw:after{content:"";position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:var(--card);transition:.25s}
+.sw[aria-checked=true]{background:var(--blue)}.sw[aria-checked=true]:after{transform:translateX(22px)}
+canvas{width:100%;height:220px;display:block}
+
+/* Radar Animation for Smart Behaviour Monitor */
+.radar-box{position:relative;width:100%;height:130px;background:color-mix(in srgb,var(--earth) 10%,var(--card));border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin:12px 0;border:1px solid var(--ln)}
+.radar-sweep{position:absolute;width:130px;height:130px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0deg,transparent 270deg,color-mix(in srgb,var(--terra) 40%,transparent) 360deg);animation:spin-radar 3s linear infinite}
+@keyframes spin-radar{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.radar-pulse{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--terra);box-shadow:0 0 0 0 color-mix(in srgb,var(--terra) 60%,transparent);animation:pulse-ring 2s infinite}
+@keyframes pulse-ring{0%{transform:scale(0.95);box-shadow:0 0 0 0 color-mix(in srgb,var(--terra) 70%,transparent)}70%{transform:scale(1.8);box-shadow:0 0 0 10px transparent}100%{transform:scale(0.95);box-shadow:0 0 0 0 transparent}}
+
+/* Cartoon Mascot and Speech Bubble */
+.mascot-container{display:flex;align-items:center;gap:12px;margin-top:10px;position:relative}
+.speech-bubble{position:relative;background:var(--chip);border:1.5px solid var(--earth);border-radius:18px;padding:12px 14px;font-size:0.88rem;font-weight:600;color:var(--ink);box-shadow:var(--sh);flex:1}
+.speech-bubble:before{content:"";position:absolute;left:-10px;top:20px;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-right:10px solid var(--earth)}
+.speech-bubble:after{content:"";position:absolute;left:-8px;top:21px;width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-right:9px solid var(--chip)}
+
+.trees{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.trees i{width:20px;height:20px;border-radius:50% 50% 50% 8px;background:var(--sage)}.trees i.t{background:var(--terra)}
+input{font:inherit;flex:1;min-width:0;padding:10px 16px;border-radius:999px;border:1.5px solid var(--blue);background:color-mix(in srgb,var(--blue-l) 22%,var(--bg));color:var(--ink)}
+input:focus-visible{outline-color:var(--blue)}
+.nb{display:flex;justify-content:space-between;margin-top:24px}
+.ban{display:none;margin-top:14px;padding:12px 18px;border-radius:20px;border:1.5px solid var(--terra);background:var(--tt);align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.ban.on{display:flex}
+.dr{position:fixed;right:18px;bottom:18px;top:18px;width:390px;max-width:calc(100% - 36px);background:var(--card);border:1.5px solid var(--ln);border-radius:28px;box-shadow:var(--sh);display:none;flex-direction:column;overflow:hidden;z-index:5}
+.dr.on{display:flex}
+.dh{padding:16px 18px;border-bottom:1px solid var(--ln);display:flex;justify-content:space-between;align-items:center}
+.ms{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:88%;padding:11px 15px;border-radius:20px 20px 20px 6px;background:var(--chip);white-space:pre-wrap}
+.m.u{align-self:flex-end;background:var(--blue);color:#fff;border-radius:20px 20px 6px 20px}
+.qs{display:flex;gap:6px;overflow:auto;padding:0 14px 8px}.qs button{flex:none;border:1px solid var(--earth);background:transparent;border-radius:999px;padding:6px 12px;font-size:.85rem}
+.ib{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--ln)}
+.tp i{display:inline-block;width:8px;height:8px;margin-right:4px;border-radius:50%;background:var(--earth);animation:b 1s infinite}.tp i:nth-child(2){animation-delay:.15s}.tp i:nth-child(3){animation-delay:.3s}
+@keyframes b{50%{opacity:.25}}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--earth);color:#fff;padding:10px 18px;border-radius:999px;opacity:0;transition:.3s;pointer-events:none;z-index:9;font-weight:700}#toast.on{opacity:1}
+.hero{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+
+/* Elephant support companion (all pages) */
+.pal{position:fixed;right:22px;bottom:22px;z-index:4;display:flex;flex-direction:row-reverse;align-items:flex-end;gap:8px;pointer-events:none}
+.pal .pe{pointer-events:auto;border:0;background:transparent;padding:0;line-height:0;animation:bob 3s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
+.pal .pt{pointer-events:auto;max-width:210px;background:var(--chip);border:1.5px solid var(--blue);border-radius:16px 16px 4px 16px;padding:8px 12px;font-size:.84rem;font-weight:600;margin-bottom:26px;box-shadow:var(--sh)}
+.pal.al .pt{border-color:var(--terra)}
+@keyframes bob{50%{transform:translateY(-4px)}}
+@media(max-width:760px){.pal .pt{display:none}}
+html.compact .pal{position:absolute;right:14px;bottom:84px}html.compact .pal .pt{display:none}
+
+/* Analyst Mode visibility controls */
+.analyst-only{display:none}
+html.analyst-mode .analyst-only{display:block}
+
+/* compact view for mobile/embedded previews */
+html.compact .app{max-width:none;height:100%;display:flex;flex-direction:column;padding:0;overflow:hidden}
+html.compact .top{padding:14px 16px 0}html.compact h1{font-size:1.45rem}html.compact .top .row{width:100%}html.compact .btn{white-space:nowrap}html.compact .top .btn{padding:7px 11px;font-size:.8rem}html.compact #sim{flex:1}html.compact .brand .mut{display:none}html.compact .ban{padding:8px 12px;font-size:.88rem}html.compact .logo{width:38px;height:38px}
+html.compact .sc{flex:1;order:3;overflow-y:auto;padding:14px 16px 90px}
+html.compact .ban{margin:10px 16px 0}
+html.compact .nav{order:4;margin:0;border-radius:0;padding:6px 4px;justify-content:space-around;background:var(--card);border-top:1.5px solid var(--ln)}
+html.compact .tab{flex-direction:column;gap:2px;font-size:.68rem;padding:6px 2px}
+html.compact .dr{position:absolute;inset:auto 0 0 0;top:12%;width:auto;max-width:none;border-radius:28px 28px 0 0}
+html.compact .stages{grid-template-columns:1fr}html.compact .stages .arr svg{transform:rotate(90deg)}
+html.compact .hero{grid-template-columns:1fr}html.compact .hh,html.narrow .xs{display:none}
+html.compact .plan{grid-template-columns:1fr}html.compact .plan .sm{grid-row:auto}
+@media(max-width:760px){.stages{grid-template-columns:1fr}.stages .arr svg{transform:rotate(90deg)}.hero{grid-template-columns:1fr}.hh{display:none}.plan{grid-template-columns:1fr}.plan .sm{grid-row:auto}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+ <header class="top">
+  <div class="brand"><div class="logo"><svg class="ico" style="stroke:#fff;width:26px;height:26px" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10.5V20h13v-9.5M9.5 15l2 2 3.5-3.5"/></svg></div>
+   <div><h1>HomeShield AI</h1><p class="mut">Your Home’s Private and Secure Guardian</p></div></div>
+  <div class="row">
+   <button class="btn o s" id="th"></button>
+   <button class="btn o s" id="analyst-mode">Analyst Mode: Off</button>
+   <button class="btn o s xs" id="ph">Phone view</button>
+   <button class="btn" id="sim">Simulate Network Event</button>
+  </div>
+ </header>
+ <div class="ban" id="ban"><span id="bt"></span><span class="row"><button class="btn s" data-a="rev">Review Device</button><button class="btn o s" data-a="chat">Ask ShieldBot</button></span></div>
+ <nav class="nav" id="nav" role="tablist"></nav>
+ <main class="sc" id="sc">
+  <section id="v0"></section>
+  <section id="v1" hidden></section>
+  <section id="v2" hidden></section>
+  <section id="v3" hidden>
+   <div id="d3a"></div>
+   <div class="card analyst-only" style="margin-bottom:18px"><h3>Live network capture</h3><p class="mut">Wireshark capture engine</p><canvas id="cv"></canvas>
+    <div class="row"><span class="chip"><i class="dot"></i>MQTT</span><span class="chip"><i class="dot" style="background:var(--earth)"></i>Zigbee and Z-Wave</span><span class="chip"><i class="dot" style="background:var(--linen)"></i>Local interfaces</span></div></div>
+   <div id="d3b" class="grid grid3"></div>
+   <div id="d3c"></div>
+  </section>
+  <section id="v4" hidden></section>
+ </main>
+<div class="pal" id="pal"></div>
+<aside class="dr" id="dr" aria-label="ShieldBot">
+ <div class="dh"><div><h3 style="margin:0">ShieldBot</h3><p class="mut">Your Home Security Companion</p></div><button class="btn o s" data-a="close">Close</button></div>
+ <div class="ms" id="ms"></div>
+ <div class="qs" id="qs"></div>
+ <div class="ib"><input id="q" placeholder="Ask me anything about your home" aria-label="Ask ShieldBot"><button class="btn g" id="send">Ask</button></div>
+</aside>
+</div>
+<div id="toast"></div>
+
+<!-- Block History Dialog Modal -->
+<dialog id="blockModal" style="background:var(--card);color:var(--ink);border:1.5px solid var(--ln);border-radius:26px;padding:24px;max-width:500px;width:90%;box-shadow:var(--sh);">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+  <h3>Blocked Calls &amp; Devices History</h3>
+  <button class="btn o s" id="closeBlockModal">Close</button>
+ </div>
+ <p class="mut" style="margin-bottom:12px;">Complete log of blocked requests and security reasoning:</p>
+ <div id="modalBlockList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;"></div>
+</dialog>
+
+<script>
+const $=i=>document.getElementById(i),R=document.documentElement;
+const IC={home:'M3 11.5 12 4l9 7.5M5.5 10.5V20h13v-9.5',hub:'M3 14h18v6H3zM7 17h.01M8 10a6 6 0 0 1 8 0M5.5 7a10 10 0 0 1 13 0',shield:'M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6zM9 12l2 2 4-4',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5',lock:'M5 11h14v9H5zM8 11V8a4 4 0 0 1 8 0v3'};
+const ic=n=>`<svg class="ico" viewBox="0 0 24 24"><path d="${IC[n]}"/></svg>`;
+const CH='<span class="arr"><svg class="ico" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span>';
+const TABS=[['Overview','home'],['Devices','hub'],['Prevention','shield'],['Detection','eye'],['Mitigation','lock']];
+const D=[['lock','Smart Lock','Zigbee','s'],['lamp','Hallway Light','Zigbee','s'],['plug','Smart Plug','Z-Wave','s'],['mot','Motion Sensor','Z-Wave','s'],['cam1','Smart Camera 01','MQTT','s'],['cam2','Smart Camera 02','MQTT','s'],['lap','Laptop','Wi-Fi','f'],['pho','Phone','Wi-Fi','f']].map(([id,name,proto,zone])=>({id,name,proto,zone,st:'ok'}));
+const MUD=[['lock','Smart Lock','Gateway only'],['cam1','Smart Camera 01','Gateway only'],['cam2','Smart Camera 02','Send video to the local gateway only.'],['lamp','Hallway Light','Local broker only'],['plug','Smart Plug','Local mesh only']].map(([id,n,r])=>({id,n,r,on:true}));
+const S={tab:0,mute:true,usb:true,blocked:214,rec:[
+  {addr:'cnc-relay.invalid', reason:'Unrecognized outbound C2 beacon ping detected'},
+  {addr:'beacon-4f.invalid', reason:'Unauthorized cloud telemetry handshake attempt'},
+  {addr:'telemetry-tracker.net', reason:'Data exfiltration profile matched by Random Forest'},
+  {addr:'analytics-ping.xyz', reason:'Blocked due to zero-trust strict egress policy'}
+],spike:0,ddos:1,logs:12,ev:false,hist:[]};
+const dv=id=>D.find(d=>d.id===id),fl=()=>D.filter(d=>d.st!=='ok');
+Object.defineProperty(S,'spike',{get(){return D.some(d=>d.st==='flagged')?1:0},set(){}});
+const score=()=>98-10*D.filter(d=>d.st==='flagged').length-3*D.filter(d=>d.st==='kept').length-2*MUD.filter(m=>!m.on).length;
+const mood=s=>s>=96?'Safe and Peaceful':s>=90?'Safe, Keeping a Close Eye':'Protected, Please Take a Look';
+const sw=(a,k,on,l)=>`<button class="sw" role="switch" aria-checked="${on}" aria-label="${l}" data-a="${a}" data-k="${k}"></button>`;
+const dot=t=>`<i class="dot ${t?'t':''}"></i>`;
+const recList=()=>S.rec.slice(-3).reverse().map(x=>`<div class="li"><span><b>${x.addr}</b><br><small class="mut">${x.reason}</small></span><span class="chip">Blocked</span></div>`).join('');
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2400)}
+const INTRO=[['','Welcome home','Everything in your home is protected by a small hub that never sends your data to the cloud.'],['The starting point','Devices and Gateway','Your devices talk to a Raspberry Pi hub that lives in your home. It is the single front door.'],['Stage 1 of 3','Prevention','Before anything connects, each device proves who it is and stays in its own space.'],['Stage 2 of 3','Detection','A quiet watchdog learns what normal looks like and notices anything unusual.'],['Stage 3 of 3','Mitigation','If something looks wrong, the hub gently steps in and you stay in control.']];
+const intro=(i)=>{const[k,h,p]=INTRO[i];return`<div class="intro"><h2>${i?h:greet()+', welcome home'}</h2></div>`}
+const greet=()=>{const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening'};
+function nextbar(i){return'';}
+const EL='<svg width="68" height="78" viewBox="0 0 68 78" fill="none" aria-hidden="true"><rect x="20" y="62" width="10" height="16" rx="4" fill="#3E6FA8"/><rect x="38" y="62" width="10" height="16" rx="4" fill="#3E6FA8"/><circle cx="13" cy="30" r="12" fill="#3E6FA8"/><circle cx="55" cy="30" r="12" fill="#3E6FA8"/><circle cx="14" cy="31" r="6.5" fill="#6FA8DC" opacity=".6"/><circle cx="54" cy="31" r="6.5" fill="#6FA8DC" opacity=".6"/><ellipse cx="34" cy="52" rx="18" ry="16" fill="#A9CBEA"/><path d="M34 56L38 60L34 64L30 60Z" fill="#5B9BD5"/><circle cx="34" cy="30" r="17" fill="#A9CBEA"/><path d="M34 34V46Q34 54 41 52" stroke="#A9CBEA" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M34 36V46Q34 52 40 51" stroke="#3E6FA8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".35"/><circle cx="27" cy="27" r="2.8" fill="#1F3A5F"/><circle cx="41" cy="27" r="2.8" fill="#1F3A5F"/><circle cx="28" cy="26" r="0.9" fill="#fff"/><circle cx="42" cy="26" r="0.9" fill="#fff"/><circle cx="22" cy="35" r="3.2" fill="#5B9BD5" opacity=".45"/><circle cx="46" cy="35" r="3.2" fill="#5B9BD5" opacity=".45"/></svg>';
+const TIPS=['Hi, I am your ShieldBot. Tap me to chat. Your home looks safe today.','These are your devices. Each one talks only to your hub.','Prevention: every device proves who it is before it joins.','I am watching quietly with you. Tap me if you want help.','You are in control here. Nothing changes unless you say so.'];
+function pal(){const f=fl(),pend=D.some(d=>d.st==='flagged');
+ $('pal').classList.toggle('al',pend);
+ $('pal').innerHTML=`<button class="pe" data-a="chat" aria-label="Chat with ShieldBot">${EL}</button><div class="pt">${pend?`Do not worry. ${f[0].name} is safe in quarantine. Tap me and I will explain.`:TIPS[S.tab]}</div>`}
+function render(){
+ const s=Math.max(score(),40),f=fl(),pend=D.some(d=>d.st==='flagged');
+ $('nav').innerHTML=TABS.map((t,i)=>`<button class="tab" role="tab" aria-selected="${S.tab===i}" data-t="${i}">${ic(t[1])}<span>${t[0]}</span></button>`).join('');
+ $('ban').classList.toggle('on',pend);$('bt').textContent=pend?`${f[0].name} moved to the Safe Quarantine Zone.`:'';
+ $('v0').innerHTML=intro(0)+`<div class="card ${s<90?'al':''}" style="margin-bottom:18px"><div class="hero"><div>
+  <h3>Home Protection Score: ${s}/100</h3><div class="bar ${s<90?'t':''}"><i style="width:${s}%"></i></div><p class="big" style="font-size:1.6rem">${mood(s)}</p>
+  <div class="row" style="margin-top:14px"><span class="chip">${dot()}Local Voice AI Active</span><span class="chip">${dot(!S.mute)}${S.mute?'MuteGuard On':'MuteGuard Paused'}</span><span class="chip">${dot()}ETSI · NIST</span></div></div>
+  <svg class="hh" width="130" viewBox="0 0 130 110" aria-hidden="true"><path d="M10 100h110" stroke="var(--earth)" stroke-width="3" stroke-linecap="round"/><rect x="25" y="48" width="80" height="52" rx="8" fill="var(--chip)" stroke="var(--earth)" stroke-width="3"/><path d="M15 52 65 12l50 40z" fill="var(--earth)"/><rect x="55" y="68" width="20" height="32" rx="6" fill="var(--terra)"/><rect x="33" y="62" width="16" height="16" rx="4" fill="var(--linen)"/><path d="M92 100V84M92 90c-8 0-10-8-10-8 8 0 10 8 10 8zM92 86c8 0 10-8 10-8-8 0-10 8-10 8z" fill="var(--sage)" stroke="var(--sage)" stroke-width="2"/></svg></div></div>
+  <div class="flow">
+   <div class="node"><b>Smart Devices</b><div class="row" style="justify-content:center;margin-top:8px"><span class="badge">Locks &amp; Sensors</span><span class="badge">Cameras</span><span class="badge">Lights &amp; Plugs</span></div></div>
+   <span class="arr">${CH}</span>
+   <div class="node"><b>Communication Protocols</b><div class="row" style="justify-content:center;margin-top:8px"><span class="badge">Zigbee / Z-Wave</span><span class="badge">MQTT</span></div></div>
+   <span class="arr">${CH}</span>
+   <div class="node"><b>Gateway</b><div class="row" style="justify-content:center;margin-top:8px"><span class="badge">Raspberry Pi</span></div></div>
+   <span class="arr">${CH}</span>
+   <div class="stages">
+    <button class="stg" data-t="2"><h3>1 · Prevention</h3><div class="rm"><span class="chip">mTLS</span><span class="chip">VLANs</span><span class="chip">MUD rules</span></div><p class="mut" style="margin-top:10px">${D.length}/${D.length} verified</p></button>${CH}
+    <button class="stg ${S.spike?'al':''}" data-t="3"><h3>2 · Detection</h3><div class="rm"><span class="chip">Wireshark</span><span class="chip">Databases</span><span class="chip">Random Forest</span><span class="chip">HomeLLaMA</span></div><p class="mut" style="margin-top:10px">${S.spike?'Unusual activity':'Normal'}</p></button>${CH}
+    <button class="stg ${pend?'al':''}" data-t="4"><h3>3 · Mitigation</h3><div class="rm"><span class="chip">VLAN isolation</span><span class="chip">DNS sinkhole</span><span class="chip">Mute + ports</span></div><p class="mut" style="margin-top:10px">${f.length?`${f[0].name} paused`:'All clear'}</p></button></div></div>`;
+ $('v1').innerHTML=intro(1)+`<div class="grid"><div class="card"><h3>Your devices</h3>${D.map(d=>`<div class="li"><span class="row">${dot(d.st!=='ok')}<b>${d.name}</b></span><span class="chip">${d.proto}</span></div>`).join('')}</div>
+  <div class="card"><h3>The Raspberry Pi hub</h3>
+  <div class="li"><span>Zigbee mesh</span><span class="chip">${dot()}Online</span></div><div class="li"><span>Z-Wave mesh</span><span class="chip">${dot()}Online</span></div><div class="li"><span>MQTT local broker</span><span class="chip">${dot()}Online</span></div><div class="li"><span>Cloud egress</span><b>0 bytes</b></div>
+  </div></div>`;
+ const room=(z,n,sub,c)=>{const l=D.filter(d=>d.zone===z);return`<div class="room ${c||''}"><h3>${n}</h3><div class="rm">${l.map(d=>`<span class="chip ${d.st==='flagged'?'mv':''}">${dot(d.st!=='ok')}${d.name}</span>`).join('')||'<span class="mut">Quiet and ready</span>'}</div></div>`};
+ $('v2').innerHTML=intro(2)+`<div class="grid"><div class="card"><h3>Mutual TLS</h3>
+  <div style="margin-top:8px">${D.slice(0,5).map(d=>`<div class="li"><span>${d.name}</span><span class="chip">${dot()}Verified</span></div>`).join('')}</div></div>
+  <div class="card"><h3>Rooms for your devices</h3><div class="plan" style="margin-top:10px">${room('s','Smart Home Zone','','sm')}${room('f','Main Family Zone','')}${room('q','Quarantine Zone','',f.length?'q':'')}</div></div></div>
+  <div class="card" style="margin-top:18px"><h3>MUD rules</h3>${MUD.map((m,i)=>`<div class="li"><div><b>${m.n}</b><p class="mut">${m.r}</p></div>${sw('mud',i,m.on,m.n+' rule')}</div>`).join('')}</div>`;
+ $('d3a').innerHTML=intro(3);renderDet();renderRest();pal();
+}
+function renderDet(){
+ const nt=12,bad=S.spike?11:0;
+ const radarAnimationHtml = `
+  <div class="radar-box">
+   <div class="radar-sweep"></div>
+   <div class="radar-pulse"></div>
+   <div style="z-index:2;text-align:center;font-weight:700;color:var(--hd);font-size:0.95rem;background:var(--card);padding:6px 14px;border-radius:12px;border:1px solid var(--ln);box-shadow:var(--sh);">
+    Active Packet Flow &amp; Watchdog Scanning
+   </div>
+  </div>
+  <p class="mut" style="text-align:center;margin-bottom:12px;">Continuously inspecting local mesh and MQTT heartbeat streams in real time.</p>
+ `;
+
+ const llamaMascotCardHtml = `
+  <div class="card">
+   <h3>HomeLLaMA Voice AI</h3>
+   <div class="mascot-container">
+    <!-- Friendly Baby Elephant Mascot SVG -->
+    <svg width="68" height="78" viewBox="0 0 68 78" fill="none" style="flex:none;">
+     <!-- legs -->
+     <rect x="20" y="62" width="10" height="16" rx="4" fill="#3E6FA8"/>
+     <rect x="38" y="62" width="10" height="16" rx="4" fill="#3E6FA8"/>
+     <!-- big floppy ears -->
+     <circle cx="13" cy="30" r="12" fill="#3E6FA8"/>
+     <circle cx="55" cy="30" r="12" fill="#3E6FA8"/>
+     <circle cx="14" cy="31" r="6.5" fill="#6FA8DC" opacity=".6"/>
+     <circle cx="54" cy="31" r="6.5" fill="#6FA8DC" opacity=".6"/>
+     <!-- body -->
+     <ellipse cx="34" cy="52" rx="18" ry="16" fill="#A9CBEA"/>
+     <path d="M34 56L38 60L34 64L30 60Z" fill="#5B9BD5"/>
+     <!-- head -->
+     <circle cx="34" cy="30" r="17" fill="#A9CBEA"/>
+     <!-- curled trunk -->
+     <path d="M34 34V46Q34 54 41 52" stroke="#A9CBEA" stroke-width="8" stroke-linecap="round" fill="none"/>
+     <path d="M34 36V46Q34 52 40 51" stroke="#3E6FA8" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".35"/>
+     <!-- eyes -->
+     <circle cx="27" cy="27" r="2.8" fill="#1F3A5F"/>
+     <circle cx="41" cy="27" r="2.8" fill="#1F3A5F"/>
+     <circle cx="28" cy="26" r="0.9" fill="#fff"/>
+     <circle cx="42" cy="26" r="0.9" fill="#fff"/>
+     <!-- rosy cheeks -->
+     <circle cx="22" cy="35" r="3.2" fill="#5B9BD5" opacity=".45"/>
+     <circle cx="46" cy="35" r="3.2" fill="#5B9BD5" opacity=".45"/>
+    </svg>
+    <div class="speech-bubble">
+     "What happens in your home, stays on your hub! 100% Local AI — 0 Bytes Sent to the Cloud."
+    </div>
+   </div>
+  </div>
+ `;
+
+ $('d3b').innerHTML=`
+  <div class="card ${S.spike?'al':''}">
+   <h3>Smart Behaviour Monitor</h3>
+   ${radarAnimationHtml}
+   <div class="analyst-only">
+    <div class="trees">${Array.from({length:nt},(_,i)=>`<i class="${i<bad?'t':''}"></i>`).join('')}</div>
+    <p><b>${nt-bad} of ${nt}</b> trees normal</p><p class="mut">DDoS confidence</p>
+    <div class="bar ${S.ddos>50?'t':''}"><i style="width:${S.ddos}%"></i></div><b>${S.ddos.toFixed(0)}%</b>
+   </div>
+  </div>
+  <div class="card"><h3>Local databases</h3><div class="li"><span>Traffic datasets</span><span class="chip">${dot()}Healthy</span></div><div class="li"><span>Threat log entries</span><b>${S.logs}</b></div></div>
+  ${llamaMascotCardHtml}`;
+}
+function renderRest(){
+ const f=fl(),pend=D.some(d=>d.st==='flagged');
+ $('v4').innerHTML=intro(4)+`<div class="grid">
+  <div class="card ${pend?'al':''}"><h3>VLAN isolation</h3>${f.length?f.map(d=>`<p><b>${d.name}</b> isolated</p>
+   <div class="row" style="margin:10px 0 4px"><button class="btn s" data-a="exp" data-k="${d.id}">Explain</button>${d.st==='flagged'?`<button class="btn o s" data-a="keep" data-k="${d.id}">Keep Isolated</button>`:''}<button class="btn g s" data-a="trust" data-k="${d.id}">Trust and Reconnect</button></div>`).join(''):'<p class="mut">All clear</p>'}</div>
+  <div class="card">
+   <h3>DNS sinkhole · C2 blocklist</h3>
+   <p class="big" id="bc">${S.blocked}</p>
+   <p class="mut" style="margin-bottom:12px;">calls blocked</p>
+   <div id="bl">${recList()}</div>
+   <div class="row" style="margin-top:14px">
+    <button class="btn s" data-a="open-block-history" style="width:100%;text-align:center;justify-content:center;display:flex;">Harmful Call Blocker (View All &amp; Why)</button>
+   </div>
+   <div class="row" style="margin-top:10px"><input id="dom" placeholder="Address to block" aria-label="Address to block"><button class="btn s" data-a="blk">Block</button></div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:18px"><h3>Mute and ports</h3><div class="li"><b>MuteGuard</b>${sw('tg','mute',S.mute,'MuteGuard')}</div><div class="li"><b>USB lockdown</b>${sw('tg','usb',S.usb,'USB Port Lockdown')}</div></div>`;
+ [0,1,2,3,4].forEach(i=>$('v'+i).hidden=S.tab!==i);
+}
+/* live graph */
+const N=50,A={m:Array(N+1).fill(22),z:Array(N+1).fill(16),l:Array(N+1).fill(10)};let last=performance.now();
+const rnd=(a,b)=>a+Math.random()*(b-a);
+function tick(){const sp=S.spike>0;if(sp)S.spike--;A.m.push(sp?rnd(84,98):rnd(18,32));A.z.push(sp?rnd(45,62):rnd(12,26));A.l.push(sp?rnd(55,75):rnd(8,20));Object.values(A).forEach(a=>a.shift());
+ S.ddos=sp?rnd(88,97):Math.max(1,S.ddos*.7);last=performance.now();if(S.ev&&!sp){S.ev=false;if(S.tab===3)renderDet();else if(S.tab===0)render()}else if(S.tab===3)renderDet()}
+function path(x,a,w,h,off,col,dash,wd){const dx=w/(N-1);x.beginPath();x.setLineDash(dash);const p=a.map((v,i)=>[(i-off)*dx,h-v/100*h]);x.moveTo(p[0][0],p[0][1]);for(let i=1;i<p.length-1;i++){const mx=(p[i][0]+p[i+1][0])/2,my=(p[i][1]+p[i+1][1])/2;x.quadraticCurveTo(p[i][0],p[i][1],mx,my)}x.strokeStyle=col;x.lineWidth=wd;x.stroke()}
+function frame(){const c=$('cv');if(c && c.offsetParent){const d=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;if(c.width!==w*d){c.width=w*d;c.height=h*d}const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);
+ x.fillStyle='rgba(200,106,60,.18)';x.fillRect(0,0,w,h*.2);x.fillStyle='#C86A3C';x.font='600 12px Nunito,sans-serif';x.fillText('Unusual activity zone',10,16);
+ const off=Math.min((performance.now()-last)/800,1);path(x,A.l,w,h,off,'#C7AF98',[2,6],3);path(x,A.z,w,h,off,'#8E6A4B',[],2.5);path(x,A.m,w,h,off,'#747760',[],3.2);x.save();x.beginPath();x.rect(0,0,w,h*.3);x.clip();path(x,A.m,w,h,off,'#C86A3C',[],3.6);x.restore()}requestAnimationFrame(frame)}
+/* chat */
+const clean=t=>t.replace(/\p{Extended_Pictographic}/gu,'').replace(/[*#`_]{1,3}/g,'').replace(/^\s*[-•]\s+/gm,'').replace(/\s*[—–]\s*/g,', ').trim();
+function add(role,t){const d=document.createElement('div');d.className='m'+(role==='u'?' u':'');if(role==='u')d.textContent=t;else d.innerHTML=t;$('ms').appendChild(d);$('ms').scrollTop=1e9;return d}
+function acts(){document.querySelectorAll('.acts').forEach(e=>e.remove());const a=document.createElement('div');a.className='row acts';a.innerHTML=(fl().length?'<button class="btn o s" data-a="rev">Review Device</button>':'')+(D.some(d=>d.st==='flagged')?'<button class="btn s" data-a="apr">Approve Isolation</button>':'')+'<button class="btn g s" data-a="aud">Run Quick Audit</button>';$('ms').appendChild(a);$('ms').scrollTop=1e9}
+const CTX=()=>JSON.stringify({score:score(),devices:D.map(d=>[d.name,d.proto,d.zone==='f'?'Main Family Zone':d.st==='ok'?'Smart Home Zone':'Safe Quarantine Zone',d.st]),blockedCalls:S.blocked,ddosConfidence:Math.round(S.ddos),muteGuard:S.mute,usbLock:S.usb,pausedRules:MUD.filter(m=>!m.on).map(m=>m.n)});
+const SYS='You are ShieldBot inside HomeShield AI, a zero-trust privacy gateway for smart homes. Architecture: Zigbee, Z-Wave and MQTT devices connect to a Raspberry Pi gateway with zero cloud egress. Stage 1 Prevention uses mutual TLS with certificate pinning, VLAN micro-segmentation and MUD rules (RFC 8520). Stage 2 Detection uses Wireshark live capture, local databases, a Random Forest model trained on CICIoT2023 and MQTTset, and HomeLLaMA local voice AI. Stage 3 Mitigation uses automated VLAN isolation, DNS sinkholing with a C2 blocklist, MuteGuard and USB lockdown. Answer any question about home security, privacy or the events below in warm, plain English for a non-expert. Maximum 110 words. Plain sentences only: no markdown, no asterisks, no dashes as bullets, no emojis. Never claim you changed a device yourself; point to the on-screen buttons.';
+let SM=null,NOAI=false;
+const KB=[[/mtls|mutual|certificate/,'mTLS means each device and the hub show each other a digital ID before they talk. A device without a valid ID simply cannot join your home network.'],[/mud/,'A MUD rule is a short list from the maker of a device saying who it may talk to. Your Smart Lock may only talk to the hub, so it can never call the internet.'],[/zigbee|z-wave|zwave|mesh/,'Zigbee is quick and common. Z-Wave is quieter with longer range. Using both lets more devices join, and powered devices pass messages along so there are fewer dead spots.'],[/forest|tree|ddos|attack|anomal/,'Twelve small decision trees each look at the traffic and vote. If most think a pattern is unusual, like a sudden flood of messages, the hub flags that device.'],[/homellama|voice|microphone|mute/,'HomeLLaMA understands your voice on the hub itself, so nothing goes to the cloud. MuteGuard can also cut power to the microphone when it is not in use.'],[/vlan|segment|room|zone|quarantine|isolat/,'Your devices live in separate zones. A flagged device is moved to the Safe Quarantine Zone, where it cannot reach anything else until you decide what to do.'],[/sinkhole|dns|c2|blocklist|block/,'When a device tries to reach a known harmful address, the hub quietly sends that call nowhere. That is DNS sinkholing, and each one adds to your blocked counter.']];
+const stat=()=>{const f=fl();return `Your protection score is ${score()} out of 100. ${f.length?f.map(d=>d.name).join(' and ')+(f.length>1?' are':' is')+' in the Safe Quarantine Zone.':'No device is in quarantine.'} ${S.blocked} harmful calls blocked so far.`};
+const evText=()=>{const d=D.find(x=>x.st!=='ok');return d?`${d.name} sent 500 MQTT messages in 2 seconds, far more than usual. The Random Forest model flagged this pattern, so the hub moved it to the Safe Quarantine Zone to protect your home. Nothing else is affected. You can keep it isolated or trust it and reconnect.`:'No device is flagged right now. Everything looks normal.'};
+function local(t){t=t.toLowerCase();if(/happen|explain what|network event|camera|flagged/.test(t))return evText();if(/audit|status|score|safe|check/.test(t)){const p=MUD.filter(m=>!m.on).length;return stat()+` ${p?p+' device rule is paused.':'All device rules are on.'} MuteGuard is ${S.mute?'on':'off'} and USB lockdown is ${S.usb?'on':'off'}.`}const k=KB.find(([r])=>r.test(t));return k?k[1]:'I can explain terms like mTLS, MUD rules or Random Forest, or check on your home. Try asking for a quick audit.'}
+async function getSM(){if(SM)return SM;try{SM=window.claude&&window.claude.use?await window.claude.use('sample'):null}catch(e){SM=null}return SM}
+async function ask(t,shown){openChat();add('u',shown||t);const b=add('b','<span class="tp"><i></i><i></i><i></i></span>');let r=null,er=null;const sm=NOAI?null:await getSM();
+ if(sm){try{const res=await Promise.race([sm([...S.hist.slice(-8),{role:'user',content:`${SYS}\n\nLive home state: ${CTX()}\n\nPerson says: ${t}`}],{modelTier:'quick',cache:false,onText:({text})=>{b.textContent=clean(text)}}),new Promise((_,j)=>setTimeout(()=>j({code:'timeout'}),10000))]);r=clean(res.text)}catch(e){r=null;er=e&&e.code;if(er==='not_granted'||er==='timeout')NOAI=true}}
+ if(!r)r=local(t);b.textContent=r;S.hist.push({role:'user',content:t},{role:'assistant',content:r});acts()}
+const openChat=()=>{$('dr').classList.add('on');$('pal').style.display='none'};
+function sim(){const c=dv('cam2');if(c.st!=='ok')return toast('Smart Camera 02 is already in quarantine');c.st='flagged';c.zone='q';S.ev=true;S.logs++;S.tab=3;render();$('sc').scrollTo?.(0,0);scrollTo(0,0);add('u','Network event: Smart Camera 02 sent 500 MQTT messages in 2 seconds.');add('b',evText());acts();}
+
+function openBlockModal(){
+ $('modalBlockList').innerHTML=S.rec.map(item=>`
+  <div style="padding:10px 14px;background:var(--chip);border-radius:12px;border:1px solid var(--ln);">
+   <b>${item.addr}</b>
+   <p class="mut" style="margin-top:2px;"><b>Reason:</b> ${item.reason}</p>
+  </div>
+ `).join('');
+ $('blockModal').showModal();
+}
+
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ const a=b.dataset.a,k=b.dataset.k;
+ if(b.dataset.t!==undefined){S.tab=+b.dataset.t;render();$('sc').scrollTo?.(0,0);scrollTo(0,0);return}
+ if(b.id==='sim')return sim();
+ if(b.id==='analyst-mode'){
+  R.classList.toggle('analyst-mode');
+  const isOn=R.classList.contains('analyst-mode');
+  b.textContent=`Analyst Mode: ${isOn?'On':'Off'}`;
+  toast(isOn?'Analyst Mode activated: Advanced panels unlocked':'Analyst Mode deactivated');
+  render();
+  return;
+ }
+ if(b.id==='closeBlockModal'){$('blockModal').close();return}
+
+ if(a==='open-block-history'){openBlockModal();return}
+ if(a==='mud'){const m=MUD[k];m.on=!m.on;render();toast(m.on?`${m.n} rule is on`:`${m.n} rule paused. It can reach beyond the hub.`)}
+ else if(a==='tg'){S[k]=!S[k];render();toast(S[k]?'Switched on':'Switched off')}
+ else if(a==='keep'){dv(k).st='kept';render();toast('Kept isolated. Your home stays protected.')}
+ else if(a==='trust'){const d=dv(k);d.st='ok';d.zone='s';render();toast(`${d.name} is back in the Smart Home Zone`)}
+ else if(a==='exp'){ask(`Explain what happened with ${dv(k).name}: it was paused for high traffic volume and moved to quarantine. What should I do?`,`Explain What Happened: ${dv(k).name}`)}
+ else if(a==='blk'){const v=$('dom').value.trim();if(!v)return toast('Type an address to block first');S.blocked++;S.rec.push({addr:v,reason:'Manually added to blocklist by user'});render();toast(`${v} is now blocked`)}
+ else if(a==='chat')openChat();
+ else if(a==='close'){$('dr').classList.remove('on');$('pal').style.display=''}
+ else if(a==='rev'){S.tab=4;render();$('dr').classList.remove('on');$('pal').style.display='';scrollTo(0,0)}
+ else if(a==='apr'){D.filter(d=>d.st==='flagged').forEach(d=>d.st='kept');render();toast('Isolation approved. Your home stays protected.')}
+ else if(a==='aud')ask('Run a quick home audit.');
+});
+
+setInterval(tick,800);
+requestAnimationFrame(frame);
+render();
+/* sample conversation shown when the chat first opens */
+add('b','Hi, I am your ShieldBot elephant. I keep an eye on your home so you do not have to.');
+add('u','Is my home safe right now?');
+add('b',stat()+' Everything is running locally on your hub.');
+add('u','What does the hub do with my camera videos?');
+add('b','Your cameras send video to the hub only. It stays inside your home, so zero bytes ever go to the cloud.');
+add('u','Nice. What if something looks suspicious?');
+add('b','I will move that device to the Safe Quarantine Zone and tell you right away. Then you decide whether to keep it isolated or trust it again.');
+acts();
+</script>
+</body>
+</html>
